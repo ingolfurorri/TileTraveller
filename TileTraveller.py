@@ -1,19 +1,15 @@
+import random
 list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
+#SEED = int(input("Input seed: "))
+random.seed()
 
 
 def coin_check():
-    user_input = input("Pull a lever (y/n): ").lower()
+    print("Pull a lever (y/n):", end= ' ')
+    user_input = random.choice(['y', 'n'])
+    print(user_input)
 
     if user_input == 'y':
-        return True
-    else:
-        return False
-
-
-
-def get_coin(list_remove, user_pos_tuple):
-    if user_pos_tuple in list_of_coins:
-        list_remove.remove(user_pos_tuple)
         return True
     else:
         return False
@@ -87,8 +83,9 @@ def move(x, y, move_user):
     return x, y
 
 
+
 def play():
-    list_remove = [(1,2), (2,2), (3,2), (2,3)]
+    moves_computer = 0
     pos_current_x = 1
     pos_current_y = 1
     coins = 0
@@ -100,7 +97,9 @@ def play():
         move_avail , move_allowed = movement_available(pos_current_x, pos_current_y)
         move_avail += '.'
         print("You can travel:", move_avail)
-        move_user = input("Direction: ")
+        print("Direction: ", end=' ')
+        move_user = random.choice(['n', 'e', 's', 'w'])
+        print(move_user)
 
     #Checks if the move is allowed, if not prompts for a different direction
     
@@ -109,8 +108,10 @@ def play():
         while not(move_bool):
             print("Not a valid direction!")
             print("You can travel:", move_avail)
-            move_user = input("Direction: ")
+            print("Direction: ", end=' ')
+            move_user = random.choice(['n', 'e', 's', 'w'])
             move_bool = move_al(move_user, move_allowed)
+            print(move_user)
 
     #Updates the position
 
@@ -119,22 +120,49 @@ def play():
 
         if user_pos_tuple in list_of_coins:
             if(coin_check()):
-                if(get_coin(list_remove, user_pos_tuple)):
-                    coins+=1
-                    print("You received 1 coin, your total is now {}.".format(coins))
+                coins+=1
+                print("You received 1 coin, your total is now {}.".format(coins))
+        
+        moves_computer += 1
 
-    
 
     else:
-        print("Victory! Total coins {}.".format(coins))
+        print("Victory! Total coins {}. Valid moves {}.".format(coins, moves_computer))
+        return coins, moves_computer
 
 
 
 def main():
-    play()
-    user_input = input("Play again (y/n): ").lower()
+    play_no = 1
+    coin_max = 0
+    moves_max = 0
+    coin = 0
+    moves_computer = 0
+    coin, moves_computer = play()
+    print("Play again (y/n): ", end = ' ')
+    user_input = random.choice(['y', 'n'])
+    print(user_input)
+
+    if(coin > coin_max):
+        coin_max = coin
+
+    if(moves_computer > moves_max):
+        moves_max = moves_computer
+
     while user_input == 'y':
-        play()
-        user_input = input("Play again (y/n): ").lower()()
+        coin_max, moves_max = play()
+        print("Play again (y/n): ", end = ' ')
+        user_input = random.choice(['y', 'n'])
+        print(user_input)
+        play_no += 1
+
+        if(coin > coin_max):
+            coin_max = coin
+
+        if(moves_computer > moves_max):
+            moves_max = moves_computer
+    
+    else:
+        print("Maximum coins {} with maximum moves {} in {} plays".format(coin_max, moves_computer, play_no))
 
 main()
