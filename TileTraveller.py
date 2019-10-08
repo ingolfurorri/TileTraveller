@@ -1,3 +1,6 @@
+list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
+
+
 def coin_check():
     user_input = input("Pull a lever (y/n): ").lower()
 
@@ -85,7 +88,6 @@ def move(x, y, move_user):
 
 
 def play():
-    list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
     list_remove = [(1,2), (2,2), (3,2), (2,3)]
     pos_current_x = 1
     pos_current_y = 1
@@ -131,7 +133,8 @@ def play():
 def main():
     play()
     user_input = input("Play again (y/n): ").lower()
-    if user_input == 'y':
-        main()
+    while user_input == 'y':
+        play()
+        user_input = input("Play again (y/n): ").lower()()
 
 main()
