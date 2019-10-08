@@ -40,7 +40,7 @@ def movement_available(x, y):
             
     if (x == 2 and y == 3 or x == y and x != 1):
         if(movement == ''):
-            movement += ' (W)est'
+            movement += '(W)est'
             move_yes += 'w'
 
         else:
