@@ -1,7 +1,7 @@
 import random
 list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
-#SEED = int(input("Input seed: "))
-random.seed()
+SEED = int(input("Input seed: "))
+random.seed(SEED)
 
 
 def coin_check():
@@ -83,7 +83,6 @@ def move(x, y, move_user):
     return x, y
 
 
-
 def play():
     moves_computer = 0
     pos_current_x = 1
@@ -97,7 +96,7 @@ def play():
         move_avail , move_allowed = movement_available(pos_current_x, pos_current_y)
         move_avail += '.'
         print("You can travel:", move_avail)
-        print("Direction: ", end=' ')
+        print("Direction:", end=' ')
         move_user = random.choice(['n', 'e', 's', 'w'])
         print(move_user)
 
@@ -108,10 +107,11 @@ def play():
         while not(move_bool):
             print("Not a valid direction!")
             print("You can travel:", move_avail)
-            print("Direction: ", end=' ')
+            print("Direction:", end=' ')
             move_user = random.choice(['n', 'e', 's', 'w'])
             move_bool = move_al(move_user, move_allowed)
             print(move_user)
+            moves_computer += 1
 
     #Updates the position
 
@@ -127,42 +127,17 @@ def play():
 
 
     else:
-        print("Victory! Total coins {}. Valid moves {}.".format(coins, moves_computer))
-        return coins, moves_computer
+        print("Victory! Total coins {}. Moves {}.".format(coins, moves_computer))
 
 
 
 def main():
     play_no = 1
-    coin_max = 0
-    moves_max = 0
-    coin = 0
-    moves_computer = 0
-    coin, moves_computer = play()
-    print("Play again (y/n): ", end = ' ')
-    user_input = random.choice(['y', 'n'])
-    print(user_input)
-
-    if(coin > coin_max):
-        coin_max = coin
-
-    if(moves_computer > moves_max):
-        moves_max = moves_computer
+    play()
+    user_input = input("Play again (y/n): ")
 
     while user_input == 'y':
-        coin_max, moves_max = play()
-        print("Play again (y/n): ", end = ' ')
-        user_input = random.choice(['y', 'n'])
-        print(user_input)
-        play_no += 1
-
-        if(coin > coin_max):
-            coin_max = coin
-
-        if(moves_computer > moves_max):
-            moves_max = moves_computer
-    
-    else:
-        print("Maximum coins {} with maximum moves {} in {} plays".format(coin_max, moves_computer, play_no))
+        play()
+        user_input = input("Play again (y/n): ")
 
 main()
