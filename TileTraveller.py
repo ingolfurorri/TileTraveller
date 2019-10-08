@@ -1,14 +1,25 @@
 pos_x = 1
 pos_y = 1
+list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
+list_remove = [(1,2), (2,2), (3,2), (2,3)]
 
 
-
-def get_coin():
+def coin_check():
     user_input = input("Pull a lever (y/n): ").lower()
+
     if user_input == 'y':
-        return 1
+        return True
     else:
-        return 0
+        return False
+
+
+
+def get_coin(list_remove, user_pos_tuple):
+    if user_pos_tuple in list_of_coins:
+        list_remove.remove(user_pos_tuple)
+        return True
+    else:
+        return False
 
 
 
@@ -101,14 +112,22 @@ while not (pos_current_x == 3 and pos_current_y == 1):
 
     while not(move_bool):
         print("Not a valid direction!")
+        print("You can travel:", move_avail)
         move_user = input("Direction: ")
         move_bool = move_al(move_user, move_allowed)
 
     #Updates the position
 
     pos_current_x, pos_current_y = move(pos_current_x, pos_current_y, move_user)
+    user_pos_tuple = (pos_current_x, pos_current_y)
 
-    coins += coin_check(list_of_coins, pos_current_x, pos_current_y)
+    if user_pos_tuple in list_of_coins:
+        if(coin_check()):
+            if(get_coin(list_remove, user_pos_tuple)):
+                coins+=1
+                print("You received 1 coin, your total is now {}.".format(coins))
+
+    
 
 else:
-    print("Victory! Total coins {}".format(coins))
+    print("Victory! Total coins {}.".format(coins))
