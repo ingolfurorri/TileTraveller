@@ -1,9 +1,3 @@
-pos_x = 1
-pos_y = 1
-list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
-list_remove = [(1,2), (2,2), (3,2), (2,3)]
-
-
 def coin_check():
     user_input = input("Pull a lever (y/n): ").lower()
 
@@ -90,44 +84,54 @@ def move(x, y, move_user):
     return x, y
 
 
+def play():
+    list_of_coins = [(1,2), (2,2), (3,2), (2,3)]
+    list_remove = [(1,2), (2,2), (3,2), (2,3)]
+    pos_current_x = 1
+    pos_current_y = 1
+    coins = 0
 
-#Main program
-
-pos_current_x = pos_x
-pos_current_y = pos_y
-coins = 0
-
-while not (pos_current_x == 3 and pos_current_y == 1):
+    while not (pos_current_x == 3 and pos_current_y == 1):
 
     #Checks what moves are allowed
 
-    move_avail , move_allowed = movement_available(pos_current_x, pos_current_y)
-    move_avail += '.'
-    print("You can travel:", move_avail)
-    move_user = input("Direction: ")
+        move_avail , move_allowed = movement_available(pos_current_x, pos_current_y)
+        move_avail += '.'
+        print("You can travel:", move_avail)
+        move_user = input("Direction: ")
 
     #Checks if the move is allowed, if not prompts for a different direction
     
-    move_bool = move_al(move_user, move_allowed)
-
-    while not(move_bool):
-        print("Not a valid direction!")
-        print("You can travel:", move_avail)
-        move_user = input("Direction: ")
         move_bool = move_al(move_user, move_allowed)
+
+        while not(move_bool):
+            print("Not a valid direction!")
+            print("You can travel:", move_avail)
+            move_user = input("Direction: ")
+            move_bool = move_al(move_user, move_allowed)
 
     #Updates the position
 
-    pos_current_x, pos_current_y = move(pos_current_x, pos_current_y, move_user)
-    user_pos_tuple = (pos_current_x, pos_current_y)
+        pos_current_x, pos_current_y = move(pos_current_x, pos_current_y, move_user)
+        user_pos_tuple = (pos_current_x, pos_current_y)
 
-    if user_pos_tuple in list_of_coins:
-        if(coin_check()):
-            if(get_coin(list_remove, user_pos_tuple)):
-                coins+=1
-                print("You received 1 coin, your total is now {}.".format(coins))
+        if user_pos_tuple in list_of_coins:
+            if(coin_check()):
+                if(get_coin(list_remove, user_pos_tuple)):
+                    coins+=1
+                    print("You received 1 coin, your total is now {}.".format(coins))
 
     
 
-else:
-    print("Victory! Total coins {}.".format(coins))
+    else:
+        print("Victory! Total coins {}.".format(coins))
+
+
+
+def main():
+    play()
+    user_input = input("Play again (y/n): ").lower()
+    if user_input == 'y':
+        main()
+
+main()
